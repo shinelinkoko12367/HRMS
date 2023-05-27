@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Contracts {% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h2>Contracts</h2>
+    <a class="nav-link" href="{% url 'contract_create' %}"><button class="btn btn-primary" >Add contract</button></a>
+    <div class="card">
+        <div class="card">
+            <div class="card-header">
+             
+    {% if contracts_list %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div style="float: right;">
+        <form method="GET" class="form-inline">
+            <div class="input-group">
+                <input type="search" name="search_query" placeholder="search" class="form-control" required>
+                <select name="search_type" style="margin-left:10px;" class="search-select" >
+                    <option value="name" selected>Name</option>
+                    <option value="salary" selected>Salary</option>
+                </select>
+                <div style="margin-left:10px;">
+                    <button type="submit" class="btn btn-primary" >Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <a class="btn btn-{% if 'name' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?name=True" role="button">
+        <i class="fas fa-sort-alpha-down"></i> Name
+    </a>
+
+    <a class="btn btn-{% if 'salary' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?salary=True" role="button">
+        <i class="fas fa-sort-numeric-down"></i> Salary
+    </a>
+</div>
+    <div class="card-body">
+          
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Options</th>
+                    <th scope="col">No.</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Employee</th>
+                    <th scope="col">Positions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contract in contracts_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'contract_detail' pk=contract.pk %}"><img src="{% static 'info_ico.png' %}" alt="Details" width="20" height="20"></a>
+                        {% if user.is_superuser %}
+                            <a href="{% url 'contract_delete' pk=contract.pk %}"><img src="{% static 'del_ico.png' %}" alt="Delete" width="20" height="20"></a>
+                            <a href="{% url 'contract_update' pk=contract.pk %}"><img src="{% static 'edit_ico.png' %}" alt="Edit" width="20" height="20"></a>
+                        {% endif %}
+                    </td>
+                    
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ contract.name }}</td>
+                    <td>{{ contract.start_date }}</td>
+                    <td>{{ contract.end_date }}</td>
+                    <td>{{ contract.salary }}</td>
+                    <td>{{ contract.employee_id }}</td>
+                    <td>{{ contract.job_id.all|join:", " }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+                    </div>
+            </div>
+            
+            
+          </div>
+        <div>
+
+    </div>
+    
+        
+ 
+
+
+      
+    {% else %}
+        <p> There are currently no contracts to display ! </p>
+    {% endif %}
+
+{% endblock body_block %}
+
+

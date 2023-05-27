@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block head_block %}
+    {{ form.media }}
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1> Create Payroll </h1>
+
+    <form method="POST" action="{% url 'payroll_create' %}"  enctype="multipart/form-data">
+        {% csrf_token %}
+       
+        {% bootstrap_form form %}
+        <div class="text-center">
+            <input type="submit" value="Create" class="btn-action btn btn-primary btn-large">
+            <a href="javascript:history.back()" class="btn btn-dark"> Back </a>
+        </div>
+
+
+        <script type="text/javascript">
+            var id_Contract_id = document.getElementById("id_Contract_id");
+            var id_salary = document.getElementById("id_salary");
+            var id_total= document.getElementById("id_total");
+            id_Contract_id.addEventListener("change", function() {
+                $.ajax({
+                    url: '{% url 'get_salary' %}',
+                    data: {"contract_id": this.value},       
+                    success: function(data) { id_salary.value = data.salary,id_total.value = data.salary; }
+                    
+                })
+            });
+            
+            var id_leave_id = document.getElementById("id_leave_id");
+            var id_fine = document.getElementById("id_fine");
+            var id_salary = document.getElementById("id_salary");
+           
+            id_leave_id.addEventListener("change", function() {
+                $.ajax({
+                    url: '{% url 'get_fine' %}',
+                    data: {"leave_id": this.value},       
+                    success: function(data) {   id_fine.value= data.fine,
+                                                id_total.value =id_salary.value-id_fine.value }
+                })
+            });
+            var id_bonus_id = document.getElementById("id_bonus");
+            id_bonus_id.addEventListener("input",()=>{
+                $.ajax({
+                      
+                    success: function(data) { id_total.value =parseInt(id_salary.value)-parseInt(id_fine.value)+parseInt(id_bonus.value) }
+                 
+                })
+              
+            })
+           
+    
+           
+        </script>
+    </form>
+</div>
+
+{% endblock %}

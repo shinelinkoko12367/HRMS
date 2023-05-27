@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Leave {% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <div>
+        <h2>Leave</h2>
+        <a class="nav-link" href="{% url 'leave_create' %}"><button class="btn btn-primary" >Add Leave</button></a>
+    </div>
+    <div class="card">
+        <div class="card">
+            <div class="card-header">
+                {% if leave_list %}
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="text-center alert alert-{{ message.tags }}">
+                            {{ message|safe }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+        
+               <a class="btn btn-{% if 'name' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?name=True" role="button">
+                    <i class="fas fa-sort-alpha-down"></i> Name
+                </a>
+        
+                <a class="btn btn-{% if 'Price' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?Price=True" role="button">
+                    <i class="fas fa-sort-numeric-down"></i> Price
+                </a>
+        
+                <div style="float: right;">
+                    <form method="GET" class="form-inline">
+                        <div class="input-group">
+                            <input type="search" name="search_query" placeholder="search" class="form-control" required>
+                            <select name="search_type" style="margin-left:10px;" class="search-select" >
+                                <option value="name" selected>Name</option>
+                                <option value="Price" selected>Price</option>
+                            </select>
+                            <div style="margin-left:10px;">
+                                <button type="submit" class="btn btn-primary" >Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                           
+                            <th scope="col">No.</th>
+                            <th scope="col">Leave</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">Fine</th>
+                            <th scope="col">Employee</th>
+                            <th scope="col">Options</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for leave in leave_list %}
+                        <tr>
+                            
+                            
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ leave.leave }}</td>
+                            <td>{{ leave.start_date }}</td>
+                            <td>{{ leave.end_date }}</td>
+                            <td>{{ leave.fine }}</td>
+                            <td>{{ leave.employee_id }}</td>
+        
+                           <td>
+                                <a href="{% url 'leave_detail' pk=leave.pk %}"><img src="{% static 'info_ico.png' %}" alt="Details" width="20" height="20"></a>
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'leave_delete' pk=leave.pk %}"><img src="{% static 'del_ico.png' %}" alt="Delete" width="20" height="20"></a>
+                                    <a href="{% url 'leave_update' pk=leave.pk %}"><img src="{% static 'edit_ico.png' %}" alt="Edit" width="20" height="20"></a>
+                                {% endif %}
+                            </td>
+        
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        
+            </div>
+          </div>
+    </div>
+
+   
+        
+       
+    {% else %}
+        <p> There are currently no contracts to display ! </p>
+    {% endif %}
+
+
+
+{% endblock body_block %}

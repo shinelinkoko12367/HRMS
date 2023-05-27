@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container">
+    <div>
+        <div>
+            <h2> Department details </h2>
+        </div>
+        <div>
+            <ul>
+                <li><b>Name: </b> {{ department.name }} </li>
+            </ul>              
+        </div>
+        <a href="javascript:history.back()" class="btn btn-dark"> Back </a>
+    </div>    
+</div>
+{% endblock %}

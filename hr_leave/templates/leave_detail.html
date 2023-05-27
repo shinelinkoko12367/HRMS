@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container">
+    <div>
+        <div>
+            <h2> Leave details </h2>
+        </div>
+        <div>
+            <ul>
+                <li><b>Leave: </b> {{ leave.leave }} </li>
+                <li><b>StartDate: </b> {{ leave.start_date }} </li>
+                <li><b>EndDate: </b> {{ leave.end_date }} </li>
+                <li><b>Fine: </b> {{ leave.fine }} </li>
+                <li><b>Employee: </b> {{ leave.employee_id }} </li>
+               
+                
+                
+            </ul>              
+        </div>
+        <a href="javascript:history.back()" class="btn btn-dark"> Back </a>
+
+    </div>    
+</div>
+{% endblock %}

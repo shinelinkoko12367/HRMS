@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Job Position {% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <div>
+        <h2>Job Postion</h2>
+        <a class="nav-link" href="{% url 'job_create' %}"><button class="btn btn-primary" >Add Job</button></a>
+    </div>
+    <div class="card">
+        <div class="card">
+            <div class="card-header">
+                {% if jobs_list %}
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="text-center alert alert-{{ message.tags }}">
+                            {{ message|safe }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+        
+                <a class="btn btn-{% if 'name' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?name=True" role="button">
+                    <i class="fas fa-sort-alpha-down"></i> Name
+                </a>
+        
+                <a class="btn btn-{% if 'expected_employees' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?expected_employees=True" role="button">
+                    <i class="fas fa-sort-numeric-down"></i> Expected Employees
+                </a>
+        
+                <div style="float: right;">
+                    <form method="GET" class="form-inline">
+                        <div class="input-group">
+                            <input type="search" name="search_query" placeholder="search" class="form-control" required>
+                            <select name="search_type" style="margin-left:10px;" class="search-select" >
+                                <option value="name" selected>Name</option>
+                                <option value="expected_employees" selected>Expected Employees</option>
+                            </select>
+                            <div style="margin-left:10px;">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Options</th>
+                            <th scope="col">No.</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Expected Employees</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs_list %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'job_detail' pk=job.pk %}"><img src="{% static 'info_ico.png' %}" alt="Details" width="20" height="20"></a>
+                                    {% if user.is_superuser %}
+                                        <a href="{% url 'job_delete' pk=job.pk %}"><img src="{% static 'del_ico.png' %}" alt="Delete" width="20" height="20"></a>
+                                        <a href="{% url 'job_update' pk=job.pk %}"><img src="{% static 'edit_ico.png' %}" alt="Edit" width="20" height="20"></a>
+                                    {% endif %}
+                                </td>
+                                
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ job.name }}</td>
+                                <td>{{ job.expected_employees }}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+    </div>
+
+   
+       
+    {% else %}
+        <p> There are currently no job position to display ! </p>
+    {% endif %}
+
+</div>
+
+{% endblock body_block %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container">
+    <div>
+        <div>
+            <h2> Expenses details </h2>
+        </div>
+        <div>
+            <ul>
+                <li><b>Name: </b> {{ expenses.name }} </li>
+                <li><b>Employee: </b> {{ expenses.employee_id }} </li>
+                <li><b>Date: </b> {{ expenses.date }} </li>
+                <li><b>Price: </b> {{ expenses.Price }} </li>
+                
+                
+            </ul>              
+        </div>
+        <a href="javascript:history.back()" class="btn btn-dark"> Back </a>
+
+    </div>    
+</div>
+{% endblock %}

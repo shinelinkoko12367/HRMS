@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block body_block %}
+<style> 
+
+    .login {
+      padding: 10px;
+      text-align: center;
+      width: 500px;
+      margin-top: 110;
+      
+    }
+    </style>
+    <div class="login container card " >
+        <div class="card text-center ">
+            <div class="card-header">
+                <h1 class="text-center">Welcome HRMS</h1>
+            </div>
+            <div class="card-body">
+              
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+            
+            </div>
+            <div class="card-footer text-muted">
+                <input type="submit" value="Sign in" class="btn btn-success btn-block">
+            </form>
+            </div>
+          </div>
+    </div>
+
+    
+
+
+{% endblock body_block %}

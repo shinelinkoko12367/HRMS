@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Payroll {% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <div>
+        <h2>Payroll</h2>
+        <a class="nav-link" href="{% url 'payroll_create' %}"><button class="btn btn-primary" >Add Payroll</button></a>
+    </div>
+    <div class="card">
+        <div class="card">
+            <div class="card-header">
+              
+    {% if payroll_list %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a class="btn btn-{% if 'name' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?name=True" role="button">
+        <i class="fas fa-sort-alpha-down"></i> Name
+    </a>
+
+    <a class="btn btn-{% if 'Price' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?Price=True" role="button">
+        <i class="fas fa-sort-numeric-down"></i> Price
+    </a>
+
+    <div style="float: right;">
+        <form method="GET" class="form-inline">
+            <div class="input-group">
+                <input type="search" name="search_query" placeholder="search" class="form-control" required>
+                <select name="search_type" style="margin-left:10px;" class="search-select" >
+                    <option value="name" selected>Name</option>
+                    <option value="Price" selected>Price</option>
+                </select>
+                <div style="margin-left:10px;">
+                    <button type="submit" class="btn btn-primary" >Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                           
+                            <th scope="col">No.</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Leave</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Fine</th>
+                            <th scope="col">salary</th>
+                            <th scope="col">bonus</th>
+                            <th scope="col">total</th>
+                            <th scope="col">Options</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payroll in payroll_list %}
+                        <tr>
+                            
+                            
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ payroll.Contract_id }}</td>
+                            <td>{{ payroll.leave_id }}</td>
+                            <td>{{ payroll.date }}</td>
+                            <td>{{ payroll.fine }}</td>
+                            <td>{{ payroll.salary }}</td>
+                            <td>{{ payroll.bonus }}</td>
+                            <td>{{ payroll.total }}</td>
+        
+                            <td>
+                                <a href="{% url 'payroll_detail' pk=payroll.pk %}"><img src="{% static 'info_ico.png' %}" alt="Details" width="20" height="20"></a>
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'payroll_delete' pk=payroll.pk %}"><img src="{% static 'del_ico.png' %}" alt="Delete" width="20" height="20"></a>
+                                    <a href="{% url 'payroll_update' pk=payroll.pk %}"><img src="{% static 'edit_ico.png' %}" alt="Edit" width="20" height="20"></a>
+                                {% endif %}
+                            </td> 
+        
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        
+            </div>
+          </div>
+    </div>
+
+       
+    {% else %}
+        <p> There are currently no contracts to display ! </p>
+    {% endif %}
+
+
+
+{% endblock body_block %}

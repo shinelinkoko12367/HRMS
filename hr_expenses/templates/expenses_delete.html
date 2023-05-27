@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+
+<div class="container">
+    <h2> Do you want to delete Expenses ? </h2>
+    <div>
+        <ul>
+            <li><b>Name: </b> {{ expenses.name }} </li>
+            <li><b>Date: </b> {{ expenses.date }} </li>
+            <li><b>Employee: </b> {{ expenses.employee_id }} </li>
+            <li><b>Price: </b> {{ expenses.Price }} </li>
+           
+        </ul>               
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <a href="javascript:history.back()" class="btn btn-dark"> Back </a>
+        <input type="submit" value="Delete" class="btn btn-danger">
+    </form>
+</div>
+{% endblock %}
